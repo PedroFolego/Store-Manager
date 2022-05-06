@@ -4,20 +4,20 @@ CREATE DATABASE StoreManager;
 
 USE StoreManager;
 
-CREATE TABLE products (
+CREATE TABLE StoreManager.products (
     id INT NOT NULL auto_increment,
     name VARCHAR(30) NOT NULL,
     quantity INT NOT NULL,
     PRIMARY KEY(id)
 ) ENGINE=INNODB;
 
-CREATE TABLE sales (
+CREATE TABLE StoreManager.sales (
     id INT NOT NULL auto_increment,
     date DATETIME DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY(id)
 ) ENGINE=INNODB;
 
-CREATE TABLE sales_products (
+CREATE TABLE StoreManager.sales_products (
     sale_id INT NOT NULL,
     product_id INT NOT NULL,
     quantity INT NOT NULL,
