@@ -7,7 +7,6 @@ const getProductsService = async () => {
 
 const getProdIDService = async (id) => {
   const [product] = await productsModel.getProdIDModel(id);
-  console.log(product);
   return product;
 };
 

@@ -12,12 +12,16 @@ const getProductsController = async (req, res, next) => {
 };
 
 const getProdIDController = async (req, res, next) => {
-  const { id } = req.params;
-  const product = await productsService.getProdIDService(id);
-
-  if (!product) return next(statusMessage(NOT_FOUND_STATUS, errorMessage.notFound));
-
-  return res.status(OK_STATUS).json(product);
+  try {
+    const { id } = req.params;
+    const product = await productsService.getProdIDService(id);
+  
+    if (!product) return next(statusMessage(NOT_FOUND_STATUS, errorMessage.notFoundProd));
+  
+    return res.status(OK_STATUS).json(product);
+  } catch (error) {
+    next(error);
+  }
 };
 
 module.exports = {

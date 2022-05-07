@@ -8,7 +8,8 @@ const INTERNAL_SERVER_ERRROR_STATUS = 500;
 
 const errorMessage = {
   serverError: 'Internal Server Error',
-  notFound: 'Product not found',
+  notFoundProd: 'Product not found',
+  notFoundSale: 'Sale not found',
 };
 
 module.exports = {

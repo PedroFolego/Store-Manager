@@ -9,6 +9,7 @@ const {
 
 const errorMiddleware = (err, _req, res, _next) => {
   if (err.status) return res.status(err.status).json(responseMessage(err.message));
+  console.log(err);
   return res
     .status(INTERNAL_SERVER_ERRROR_STATUS)
     .json(responseMessage(errorMessage.serverError));
