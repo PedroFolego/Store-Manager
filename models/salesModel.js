@@ -9,11 +9,6 @@ const getSalesModel = async () => {
   return sales;
 };
 
-// select sa.id as saleId, sa.date as date, sp.product_id as productId, sp.quantity as quantity
-//     from StoreManager.sales sa
-//         join StoreManager.sales_products sp
-// distinct sa;
-
 const getSaleIDModel = async (id) => {
   const [sale] = await connection.execute(
     `SELECT sa.date AS date, sp.product_id AS productId, sp.quantity AS quantity
@@ -24,6 +19,12 @@ const getSaleIDModel = async (id) => {
   );
   return sale;
 };
+
+const postSaleModel = async (productID, quantity) => {
+  const sale = await connection.execute(
+    `INSERT INTO StoreManager.sales_products`
+  )
+}
 
 module.exports = {
   getSalesModel,
