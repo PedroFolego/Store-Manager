@@ -22,20 +22,42 @@ const validateProduct = (name, quantity) => {
   return false;
 };
 
+const findProduct = async (name) => {
+  const products = await productsModel.getProductsModel();
+  const productExist = products.some((pr) => pr.name === name);
+  if (productExist) {
+    return returnValidation(CONFLICT_STATUS, errorMessage.productExist);
+  }
+  return productExist;
+};
+
 const postProductService = async (name, quantity) => {
   const validate = validateProduct(name, quantity);
   if (validate) return validate;
 
-  const products = await productsModel.getProductsModel();
-  if (products.find((pr) => pr.name === name)) {
-    return returnValidation(CONFLICT_STATUS, errorMessage.productExist);
-  }
   const obj = await productsModel.postProductModel(name, quantity);
   return { obj };
+};
+
+const attProductService = async (id, name, quantity) => {
+  const validate = validateProduct(name, quantity);
+  if (validate) return validate;
+
+  const findProd = await findProduct(name);
+  if (findProd) return findProd;
+
+  const obj = await productsModel.attProductModel(id, name, quantity);
+  return { obj };
+};
+
+const deleteProductService = async (id) => {
+  await productsModel.deleteProductModel(id);
 };
 
 module.exports = {
   getProductsService,
   getProdIDService,
   postProductService,
+  attProductService,
+  deleteProductService,
 };
