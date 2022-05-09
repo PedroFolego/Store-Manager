@@ -1,5 +1,5 @@
 const productsService = require('../services/productsService');
-const { OK_STATUS, NOT_FOUND_STATUS, errorMessage } = require('../utils/constants');
+const { OK_STATUS, NOT_FOUND_STATUS, CREATED_STATUS, errorMessage } = require('../utils/constants');
 const { statusMessage } = require('../utils/functions');
 
 const getProductsController = async (req, res, next) => {
@@ -24,7 +24,22 @@ const getProdIDController = async (req, res, next) => {
   }
 };
 
+const postProductController = async (req, res, next) => {
+  try {
+    const { name, quantity } = req.body;
+    const {
+      error, status, message, obj,
+    } = await productsService.postProductService(name, quantity);
+    if (error) return next(statusMessage(status, message));
+
+    return res.status(CREATED_STATUS).json(obj);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   getProductsController,
   getProdIDController,
+  postProductController,
 };
