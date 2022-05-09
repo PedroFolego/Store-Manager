@@ -16,7 +16,7 @@ const getSalesIDController = async (req, res, next) => {
     const { id } = req.params;
     const sale = await salesService.getSaleIDService(id);
   
-    if (!sale) return next(statusMessage(NOT_FOUND_STATUS, errorMessage.notFoundSale));
+    if (sale.length === 0) return next(statusMessage(NOT_FOUND_STATUS, errorMessage.notFoundSale));
   
     return res.status(OK_STATUS).json(sale);
   } catch (error) {
