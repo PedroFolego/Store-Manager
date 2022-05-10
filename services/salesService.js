@@ -15,16 +15,19 @@ const getSaleIDService = async (id) => {
   return sale;
 };
 
-const postSaleService = async (productId, quantity) => {
+const validateEachSell = ({ productId, quantity }) => {
   const { error } = schemaSales.validate({ productId, quantity });
   if (error) return returnValidation(checkError(error.message), error.message);
+};
 
-  const obj = {};
-  return { error: false, obj };
+const postSaleService = async (arrSale) => {
+  const sale = await salesModel.postSaleModel(arrSale);
+  return sale;
 };
 
 module.exports = {
   getSalesService,
   getSaleIDService,
+  validateEachSell,
   postSaleService,
 };

@@ -17,7 +17,7 @@ jest.mock('mysql2/promise', () => {
 });
 describe("03-validations", () => {
 
-	describe.skip("3 - Realiza validações nos produtos e nas vendas", () => {
+	describe("3 - Realiza validações nos produtos e nas vendas", () => {
 		it("quando cadastrar um produto será validado que o campo name está presente no body", async () => {
 			await request
 				.post(`/products`,)

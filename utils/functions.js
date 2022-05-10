@@ -9,11 +9,8 @@ const checkError = (message) => {
   return UNPROCESSABLE_ENTITY_STATUS;
 };
 
-const returnValidation = (status, message) => ({ error: true, message, status });
-
 module.exports = {
   statusMessage,
   responseMessage,
   checkError,
-  returnValidation,
 };

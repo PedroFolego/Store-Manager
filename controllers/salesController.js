@@ -24,15 +24,25 @@ const getSalesIDController = async (req, res, next) => {
   }
 };
 
+const validateBodySale = (req, res, next) => {
+  next();
+  const { body } = req;
+  const error = body.forEach(salesService.validateEachSell);
+
+  if (error) {
+    console.log('entrou', error);
+    const { status, message } = error;
+    return next(statusMessage(status, message));
+  }
+  next();
+};
+
 const postSaleController = async (req, res, next) => {
   try {
-    const { productId, quantity } = req.body;
-    const {
-      error, status, message, obj,
-    } = await salesService.postSaleService(productId, quantity);
-    if (error) return next(statusMessage(status, message));
+    const { body } = req;
+    const { sale } = await salesService.postSaleService(body);
 
-    return res.status(CREATED_STATUS).json(obj);
+    return res.status(CREATED_STATUS).json(sale);
   } catch (err) {
     next(err);
   }
@@ -41,5 +51,6 @@ const postSaleController = async (req, res, next) => {
 module.exports = {
   getSalesController,
   getSalesIDController,
+  validateBodySale,
   postSaleController,
 };
