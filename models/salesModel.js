@@ -43,12 +43,16 @@ const postSaleModel = async (arrSale) => {
   };
 };
 
-const putSaleModel = async (id, arrSale) => {
+const deleteSalesProducts = async (id) => {
   await connection.execute(
-    `DELETE FROM StoreManager.sales_products 
+    `DELETE FROM StoreManager.sales_products
       WHERE sale_id = ?`,
     [id],
   );
+};
+
+const putSaleModel = async (id, arrSale) => {
+  await deleteSalesProducts(id);
   await addSale(id, arrSale);
 
   return {
@@ -58,11 +62,7 @@ const putSaleModel = async (id, arrSale) => {
 };
 
 const deleteSaleModel = async (id) => {
-  await connection.execute(
-    `DELETE FROM StoreManager.sales_products 
-      WHERE sale_id = ?`,
-    [id],
-  );
+  await deleteSalesProducts(id);
   await connection.execute(
     `DELETE FROM StoreManager.sales
       WHERE id = ?`,
