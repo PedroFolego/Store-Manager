@@ -48,9 +48,7 @@ const attProductService = async (id, name, quantity) => {
   return product;
 };
 
-const deleteProductService = async (id) => {
-  await productsModel.deleteProductModel(id);
-};
+const deleteProductService = async (id) => productsModel.deleteProductModel(id);
 
 module.exports = {
   getProductsService,

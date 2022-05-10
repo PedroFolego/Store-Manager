@@ -20,27 +20,60 @@ const getSaleIDModel = async (id) => {
   return sale;
 };
 
+const addSale = async (id, arrSale) => (
+  arrSale.forEach(async ({ productId, quantity }) => (
+    connection.execute(
+      `INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity)
+      VALUES (?, ?, ?)`,
+      [id, productId, quantity],
+    )
+  ))
+);
+
 const postSaleModel = async (arrSale) => {
   const [{ insertId }] = await connection.execute(
     `INSERT INTO StoreManager.sales (id, date)
       VALUES (DEFAULT, DEFAULT);`,
   );
+  await addSale(insertId, arrSale);
 
-  arrSale.forEach(async ({ productId, quantity }) => (
-    connection.execute(
-      `INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity)
-      VALUES (?, ?, ?)`,
-      [insertId, productId, quantity],
-    )
-  ));
   return {
     id: insertId,
-    itemSold: arrSale,
+    itemsSold: arrSale,
   };
+};
+
+const putSaleModel = async (id, arrSale) => {
+  await connection.execute(
+    `DELETE FROM StoreManager.sales_products 
+      WHERE sale_id = ?`,
+    [id],
+  );
+  await addSale(id, arrSale);
+
+  return {
+    saleId: id,
+    itemUpdated: arrSale,
+  };
+};
+
+const deleteSaleModel = async (id) => {
+  await connection.execute(
+    `DELETE FROM StoreManager.sales_products 
+      WHERE sale_id = ?`,
+    [id],
+  );
+  await connection.execute(
+    `DELETE FROM StoreManager.sales
+      WHERE id = ?`,
+    [id],
+  );
 };
 
 module.exports = {
   getSalesModel,
   getSaleIDModel,
   postSaleModel,
+  putSaleModel,
+  deleteSaleModel,
 };
