@@ -20,13 +20,23 @@ const getSaleIDModel = async (id) => {
   return sale;
 };
 
-const postSaleModel = async (productID, quantity) => {
-  const sale = await connection.execute(
-    `INSERT INTO StoreManager.sales_products`
-  )
-}
+const postSaleModel = async (arrSell) => {
+  const [{ insertId }] = await connection.execute(
+    `INSERT INTO StoreManager.sales (id, date)
+      VALUES (DEFAULT, DEFAULT);`,
+  );
+
+  arrSell.forEach(async ({ productId, quantity }) => (
+    connection.execute(
+      `INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity)
+      VALUES (?, ?, ?)`,
+      [insertId, productId, quantity],
+    )
+  ));
+};
 
 module.exports = {
   getSalesModel,
   getSaleIDModel,
+  postSaleModel,
 };
