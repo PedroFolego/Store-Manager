@@ -3,9 +3,9 @@ const sinon = require('sinon');
 const connection = require('../../../models/connection');
 const productsModel = require('../../../models/productsModel');
 
-describe('Busca todos os produtos do BD', () => {
+describe('M - Busca todos os produtos do BD', () => {
   describe('Quando não existe produtos', () => {
-    const resultFake = [];
+    const resultFake = [[]];
 
     before(() => {
       sinon.stub(connection, 'execute')
@@ -28,7 +28,7 @@ describe('Busca todos os produtos do BD', () => {
     })
   })
   describe('Quando existe produtos no BD', () => {
-    const resultFake =   [
+    const resultFake =   [[
       {
         "id": 1,
         "name": "produto A",
@@ -39,7 +39,7 @@ describe('Busca todos os produtos do BD', () => {
         "name": "produto B",
         "quantity": 20
       }
-    ]
+    ]]
 
     before(() => {
       sinon.stub(connection, 'execute')
@@ -50,7 +50,7 @@ describe('Busca todos os produtos do BD', () => {
     })
     it('retorna um array', async () => {
       const result = await productsModel.getProductsModel();
-
+      
       expect(result).to.be.an('array');
     })
     it('o array não está vazio', async () => {

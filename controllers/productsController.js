@@ -33,7 +33,7 @@ const validateNameProdExist = async (req, res, next) => {
 };
 
 //
-const getProductsController = async (req, res, next) => {
+const getProductsController = async (_req, res, next) => {
   try {
     const products = await productsService.getProductsService();
     return res.status(OK_STATUS).json(products);
@@ -56,7 +56,7 @@ const postProductController = async (req, res, next) => {
   try {
     const { name, quantity } = req.body;
     const product = await productsService.postProductService(name, quantity);
-    console.log('entrou 2');
+
     return res.status(CREATED_STATUS).json(product);
   } catch (error) {
     next(error);

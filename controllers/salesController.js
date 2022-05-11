@@ -18,6 +18,19 @@ const validateId = async (req, res, next) => {
   next();
 };
 
+const validateBodySale = (req, res, next) => {
+  const { body } = req;
+  
+  const response = salesService.validateEachSell(body); // body.forEach(salesService.validateEachSell);
+  
+  if (response) {
+    console.log('entrou', response);
+    const { status, message } = response;
+    return next(statusMessage(status, message));
+  }
+  next();
+};
+
 const getSalesController = async (_req, res, next) => {
   try {
     const sales = await salesService.getSalesService();
@@ -36,19 +49,6 @@ const getSalesIDController = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
-
-const validateBodySale = (req, res, next) => {
-  const { body } = req;
-
-  const response = salesService.validateEachSell(body); // body.forEach(salesService.validateEachSell);
-
-  if (response) {
-    console.log('entrou', response);
-    const { status, message } = response;
-    return next(statusMessage(status, message));
-  }
-  next();
 };
 
 const postSaleController = async (req, res, next) => {
