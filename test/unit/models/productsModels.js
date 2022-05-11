@@ -73,31 +73,32 @@ describe('M - Busca todos os produtos do BD', () => {
       )
     })
   })
-//   it('', async () => {
+})
+describe('Busca produto pelo ID', () => {
+  const resultFake = [
+    {
+      "id": 1,
+      "name": "produto A",
+      "quantity": 10
+    }
+  ];
+
+  before(() => {
+    sinon.stub(connection, 'execute')
+      .resolves(resultFake)
+  })
+
+  after(() => {
+    connection.execute.restore();
+  })
+
+  it('retorna um object', async () => {
+    const result = await productsModel.getProdIDModel(1);
+    expect(result).to.be.an('object');
+  })
+  it('retorna um object correto', async () => {
+    const result = await productsModel.getProdIDModel(1);
     
-//   })
-//   it('', async () => {
-    
-//   })
-//   it('', async () => {
-    
-//   })
-//   it('', async () => {
-    
-//   })
-//   it('', async () => {
-    
-//   })
-//   it('', async () => {
-    
-//   })
-//   it('', async () => {
-    
-//   })
-//   it('', async () => {
-    
-//   })
-//   it('', async () => {
-    
-//   })
+    expect(result).to.be.equal(resultFake[0]);
+  })
 })
