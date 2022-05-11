@@ -74,3 +74,53 @@ describe('S - Busca todos os produtos do BD', () => {
     })
   })
 })
+
+describe('Busca produto pelo ID', () => {
+  const fakeProduct = [{
+    "id": 1,
+    "name": "produto A",
+    "quantity": 10
+  }]
+  before(() => {
+    sinon.stub(productsModel, 'getProdIDModel')
+      .resolves(fakeProduct)
+  })
+  after(() => {
+    productsModel.getProdIDModel.restore();
+  })
+  it('retorna um objeto', async () => {
+    const result = await productsService.getProdIDService(1);
+    expect(result).to.be.an('object');
+  })
+  it('retorna um object correto', async () => {
+    const result = await productsService.getProdIDService(1);
+    
+    expect(result).to.be.equal(fakeProduct[0]);
+  })
+})
+
+describe('Cria um produto', () => {
+  const name = 'produto A';
+  const quantity = 10;
+  const fakeProduct = {
+    "id": 1,
+    "name": "produto A",
+    "quantity": 10
+  }
+  before(() => {
+    sinon.stub(productsModel, 'postProductModel')
+      .resolves(fakeProduct)
+  })
+  after(() => {
+    productsModel.postProductModel.restore();
+  })
+  it('retorna um objeto', async () => {
+    const result = await productsService.postProductService(name, quantity);
+    expect(result).to.be.an('object');
+  })
+  it('retorna um object correto', async () => {
+    const result = await productsService.postProductService(name, quantity);
+    
+    expect(result).to.be.eql(fakeProduct);
+  })
+})
